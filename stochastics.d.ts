@@ -1,6 +1,11 @@
 /** nAnts stochastic simulation module
  */
 declare module stochastics {
+    enum Method {
+        Euler = 0,
+        Milstein = 1,
+        Colour = 2,
+    }
     class Solution {
         t: Float32Array | Float64Array;
         result: Float32Array | Float64Array;
