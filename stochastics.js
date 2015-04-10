@@ -9,15 +9,24 @@ var stochastics;
             this.result = result;
         }
         // Helper functions
-        Solution.prototype.get_dimension = function (d) {
+        Solution.prototype.getDimension = function (d) {
             return this.result.subarray(d * this.N, (d + 1) * this.N);
         };
-        Solution.prototype.get_trail = function (d) {
-            var x = this.get_dimension(d);
+        Solution.prototype.getTrail = function (d) {
+            var x = this.getDimension(d);
             var i;
             var result = new Array();
             for (i = 0; i < this.N; i++)
                 result.push([this.t[i], x[i]]);
+            return result;
+        };
+        Solution.prototype.getPhase = function (d1, d2) {
+            var x = this.getDimension(d1);
+            var y = this.getDimension(d2);
+            var i;
+            var result = new Array();
+            for (i = 0; i < this.N; i++)
+                result.push([x[i], y[i]]);
             return result;
         };
         return Solution;

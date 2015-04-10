@@ -6,8 +6,9 @@ declare module stochastics {
         result: Float32Array | Float64Array;
         N: number;
         constructor(t: any, result: any, n: any);
-        get_dimension(d: number): Float32Array | Float64Array;
-        get_trail(d: number): [number, number][];
+        getDimension(d: number): Float32Array | Float64Array;
+        getTrail(d: number): [number, number][];
+        getPhase(d1: number, d2: number): [number, number][];
     }
     /** Euler-Maruyama method
      *
