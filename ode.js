@@ -20,6 +20,7 @@ var ode;
         var x_cur = initial;
         for (j = 0; j < d; j++)
             result[j * N] = initial[j];
+        // the grunt-work!
         for (i = 0; i < N - 1; i++) {
             var x_prime = derivative(x_cur, t[i], parameters);
             t[i + 1] = (i + 1) * dt;
@@ -80,7 +81,8 @@ var ode;
             x_prime_cur = derivative(x_cur, t[i], parameters);
             t[i + 1] = (i + 1) * dt;
             for (j = 0; j < d; j++) {
-                result[i + 1 + j * N] = x_new[j] = x_cur[j] + dt * (3 * x_prime_cur[j] - x_prime_old[j]) / 2;
+                result[i + 1 + j * N] = x_new[j] =
+                    x_cur[j] + dt * (3 * x_prime_cur[j] - x_prime_old[j]) / 2;
                 x_old[j] = x_cur[j];
                 x_cur[j] = x_new[j];
                 x_prime_old[j] = x_prime_cur[j];
@@ -99,6 +101,7 @@ var ode;
         for (j = 0; j < d; j++)
             result[j * N] = x_cur[j];
         var x_new = x_cur.slice(), x_next = x_cur.slice();
+        // the grunt-work!
         for (i = 0; i < N - 1; i++) {
             t[i + 1] = (i + 1) * dt;
             var x_prime_cur = derivative(x_cur, t[i], parameters);
@@ -106,7 +109,8 @@ var ode;
                 x_next[j] = x_cur[j] + dt * x_prime_cur[j];
             var x_prime_next = derivative(x_next, t[i + 1], parameters);
             for (j = 0; j < d; j++) {
-                result[i + 1 + j * N] = x_new[j] = x_cur[j] + dt * (x_prime_cur[j] + x_prime_next[j]) / 2;
+                result[i + 1 + j * N] = x_new[j] =
+                    x_cur[j] + dt * (x_prime_cur[j] + x_prime_next[j]) / 2;
                 x_cur[j] = x_new[j];
             }
         }

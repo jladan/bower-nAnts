@@ -12,8 +12,16 @@ declare module stochastics {
         N: number;
         constructor(t: any, result: any, n: any);
         getDimension(d: number): Float32Array | Float64Array;
-        getTrail(d: number): [number, number][];
-        getPhase(d1: number, d2: number): [number, number][];
+        /** Extracts a 'trail' from the solution: pairs of (x,t)
+         * d is the index of the dimension (starting from 0)
+         * outStep is the number of time-steps between samples. Default to 1
+         */
+        getTrail(d: number, outStep?: number): [number, number][];
+        /** Extracts a trail in phase-space, coordinate (x_1, x_2)
+         * d1, and d2  are the indices of the coordinates (starting from 0)
+         * outStep is the number of time-steps between samples. Default to 1
+         */
+        getPhase(d1: number, d2: number, outStep?: number): [number, number][];
     }
     /** Euler-Maruyama method
      *

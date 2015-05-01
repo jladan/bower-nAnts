@@ -19,20 +19,30 @@ var stochastics;
         Solution.prototype.getDimension = function (d) {
             return this.result.subarray(d * this.N, (d + 1) * this.N);
         };
-        Solution.prototype.getTrail = function (d) {
+        /** Extracts a 'trail' from the solution: pairs of (x,t)
+         * d is the index of the dimension (starting from 0)
+         * outStep is the number of time-steps between samples. Default to 1
+         */
+        Solution.prototype.getTrail = function (d, outStep) {
+            outStep = outStep || 1;
             var x = this.getDimension(d);
             var i;
             var result = new Array();
-            for (i = 0; i < this.N; i++)
+            for (i = 0; i < this.N; i += outStep)
                 result.push([this.t[i], x[i]]);
             return result;
         };
-        Solution.prototype.getPhase = function (d1, d2) {
+        /** Extracts a trail in phase-space, coordinate (x_1, x_2)
+         * d1, and d2  are the indices of the coordinates (starting from 0)
+         * outStep is the number of time-steps between samples. Default to 1
+         */
+        Solution.prototype.getPhase = function (d1, d2, outStep) {
+            outStep = outStep || 1;
             var x = this.getDimension(d1);
             var y = this.getDimension(d2);
             var i;
             var result = new Array();
-            for (i = 0; i < this.N; i++)
+            for (i = 0; i < this.N; i += outStep)
                 result.push([x[i], y[i]]);
             return result;
         };
@@ -66,13 +76,16 @@ var stochastics;
         var y_cur = initial.slice();
         for (j = 0; j < d; j++)
             result[j * N] = initial[j];
+        // the grunt-work!
         for (i = 0; i < N - 1; i++) {
             var A_cur = A(y_cur, t[i], pA);
             var D_cur = D(y_cur, t[i], pD);
             t[i + 1] = (i + 1) * dt;
             for (j = 0; j < d; j++) {
                 n = stochastics.gaussian();
-                result[i + 1 + j * N] = y_cur[j] = y_cur[j] + dt * A_cur[j] + n * D_cur[j] * sdt;
+                result[i + 1 + j * N] = y_cur[j] =
+                    y_cur[j] + dt * A_cur[j] +
+                        n * D_cur[j] * sdt;
             }
         }
         return new Solution(t, result, N);
@@ -105,6 +118,7 @@ var stochastics;
         var y_cur = initial.slice();
         for (j = 0; j < d; j++)
             result[j * N] = initial[j];
+        // the grunt-work!
         for (i = 0; i < N - 1; i++) {
             var A_cur = A(y_cur, t[i], pA);
             var D_cur = D(y_cur, t[i], pD);
@@ -112,7 +126,9 @@ var stochastics;
             t[i + 1] = (i + 1) * dt;
             for (j = 0; j < d; j++) {
                 n = boxMuller2();
-                result[i + 1 + j * N] = y_cur[j] = y_cur[j] + dt * A_cur[j] + n[0] * D_cur[j] * sdt - dt / 2 * D_cur[j] * Dy_cur[j] * (1 - n[1] * n[1]);
+                result[i + 1 + j * N] = y_cur[j] =
+                    y_cur[j] + dt * A_cur[j] + n[0] * D_cur[j] * sdt
+                        - dt / 2 * D_cur[j] * Dy_cur[j] * (1 - n[1] * n[1]);
             }
         }
         return new Solution(t, result, N);

@@ -16,9 +16,7 @@ var Algebra;
             this.n = n;
             this.m = m;
         }
-        Size.prototype.copy = function () {
-            return new Size(this.n, this.m);
-        };
+        Size.prototype.copy = function () { return new Size(this.n, this.m); };
         return Size;
     })();
     Algebra.Size = Size;
@@ -36,9 +34,7 @@ var Algebra;
             this.array = buffer || new Array(this.size.n * this.size.m);
         }
         /** return a copy of the matrix */
-        Matrix.prototype.copy = function () {
-            return new Matrix(this.size, this.array.slice());
-        };
+        Matrix.prototype.copy = function () { return new Matrix(this.size, this.array.slice()); };
         /**  A matrix of size `size` with ones on the diagonal */
         Matrix.identity = function (size) {
             var s = typeof size === "number" ? new Size(size, size) : size;
@@ -61,7 +57,8 @@ var Algebra;
          */
         Matrix.prototype.add = function (m) {
             if (this.size[0] != m.size[0] || this.size[1] != m.size[1])
-                throw Error('Matrix dimensions (' + this.size + ', ' + m.size + ') must agree');
+                throw Error('Matrix dimensions (' + this.size + ', ' + m.size +
+                    ') must agree');
             var result = new Matrix(this.size);
             var i;
             for (i = 0; i < this.size[0] * this.size[1]; i++) {
@@ -73,7 +70,8 @@ var Algebra;
          */
         Matrix.prototype.subtract = function (m) {
             if (this.size[0] != m.size[0] || this.size[1] != m.size[1])
-                throw Error('Matrix dimensions (' + this.size + ', ' + m.size + ') must agree');
+                throw Error('Matrix dimensions (' + this.size + ', ' + m.size +
+                    ') must agree');
             var result = new Matrix(this.size);
             var i;
             for (i = 0; i < this.size[0] * this.size[1]; i++) {
@@ -92,7 +90,8 @@ var Algebra;
                 for (j = 0; j < result.size[1]; j++) {
                     result.array[result.size[1] * i + j] = 0;
                     for (k = 0; k < this.size[1]; k++) {
-                        result.array[result.size[1] * i + j] += this.array[this.size[1] * i + k] * m.array[m.size[1] * k + j];
+                        result.array[result.size[1] * i + j] +=
+                            this.array[this.size[1] * i + k] * m.array[m.size[1] * k + j];
                     }
                 }
             }
