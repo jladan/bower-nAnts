@@ -18,7 +18,7 @@ var Algebra;
         }
         Size.prototype.copy = function () { return new Size(this.n, this.m); };
         return Size;
-    })();
+    }());
     Algebra.Size = Size;
     /** Matrix object
      *
@@ -227,6 +227,6 @@ var Algebra;
             return LU.utSolve(LU.ltSolve(b));
         };
         return Matrix;
-    })();
+    }());
     Algebra.Matrix = Matrix;
 })(Algebra || (Algebra = {}));

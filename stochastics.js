@@ -47,7 +47,7 @@ var stochastics;
             return result;
         };
         return Solution;
-    })();
+    }());
     stochastics.Solution = Solution;
     /** Euler-Maruyama method
      *
